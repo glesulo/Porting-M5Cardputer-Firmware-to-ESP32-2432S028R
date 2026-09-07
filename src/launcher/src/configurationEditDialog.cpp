@@ -26,8 +26,10 @@
 #include <QToolButton>
 #include <QTreeView>
 #include <QVBoxLayout>
+#if __has_include(<QVulkanInstance>)
 #include <QVulkanInstance>
 #include <QVulkanWindow>
+#endif
 #include <QtAlgorithms>
 
 #include "ui_configuration_edit_dialog.h"
@@ -180,6 +182,7 @@ void ConfigurationEditDialog::Init(const Configuration& info) {
 		}
 	}
 #endif
+#if __has_include(<QVulkanInstance>)
 	QVulkanInstance instance;
 	instance.setApiVersion(QVersionNumber(1, 3, 0));
 #if !defined(__APPLE__)
@@ -192,6 +195,7 @@ void ConfigurationEditDialog::Init(const Configuration& info) {
 			m_ui->comboBox_gpu->addItem(QString::fromUtf8(device.deviceName));
 		}
 	}
+#endif
 	m_ui->comboBox_gpu->setCurrentIndex(
 	    info.gpu_index >= 0 && info.gpu_index < m_ui->comboBox_gpu->count() - 1 ? info.gpu_index + 1
 	                                                                            : 0);
